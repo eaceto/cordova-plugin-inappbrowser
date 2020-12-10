@@ -946,6 +946,16 @@ BOOL isExiting = FALSE;
     [self.toolbar setItems:items];
 }
 
+- (void)webView:(WKWebView *)webView
+didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge
+*)challenge completionHandler:(void (^)
+(NSURLSessionAuthChallengeDisposition
+disposition, NSURLCredential *credential))completionHandler {
+    SecTrustRef serverTrust = challenge.protectionSpace.serverTrust;
+    completionHandler(NSURLSessionAuthChallengeUseCredential,
+    [NSURLCredential credentialForTrust:serverTrust]);
+}
+
 - (void)showLocationBar:(BOOL)show
 {
     CGRect locationbarFrame = self.addressLabel.frame;
